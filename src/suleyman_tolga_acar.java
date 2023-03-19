@@ -1,6 +1,8 @@
 // Süleyman Tolga Acar
 // 2021400237
 // 17.03.2023
+// Given two input stations this program finds the path between those two stations using recursion.
+// It prints the path to the console, also it shows the path on the canvas using StdDraw library.
 
 import java.awt.*;
 import java.io.File;
@@ -11,35 +13,43 @@ import java.util.Scanner;
 
 public class suleyman_tolga_acar {
     public static void main(String[] args) {
+        // Defining main arrays I use
         String[][] metroLines = new String[10][2];
         String[][] stations = new String[10][];
         String[][] breakPoints = new String[7][];
 
         readFile(metroLines, stations, breakPoints);
+        // Removing the asterix from station names but this doesn't modify the original array. It returns a new one.
         String[][] fixedStations = fixStationNames(stations);
 
+        // Getting console input from the user
         Scanner sc = new Scanner(System.in);
         String start = sc.nextLine();
         String end = sc.nextLine();
+        // Check if the input is valid
         if(!(checkValid(start, fixedStations) && checkValid(end, fixedStations))){
-            System.out.println("No such station names in this map");
+            System.out.println("The station names provided are not present in this map.");
             return;
         }
+        // Find the path between the two stations
         String solution = findPath(start, end, fixedStations, breakPoints, "", "");
         if(solution == ""){
             System.out.println("These two stations are not connected");
             return;
         }
+        // I sliced the solution string just because how I returned it. It has nothing to do with the solution itself.
         solution = solution.substring(1);
         for(String station: solution.split(" ")){
             System.out.println(station);
         }
+        // Setting up the canvas properties
         StdDraw.setCanvasSize(1024, 482);
         StdDraw.setXscale(0, 1024);
         StdDraw.setYscale(0, 482);
         StdDraw.setFont(new Font("Helvetica", Font.BOLD, 8));
         StdDraw.enableDoubleBuffering();
 
+        // Drawing everything initially and then showing the path between points
         draw(metroLines, stations);
         showPath(solution.split(" "), fixedStations, metroLines, stations);
     }
