@@ -1,8 +1,9 @@
 // Süleyman Tolga Acar
 // 2021400237
-// 17.03.2023
+// 24.03.2023
 // Given two input stations this program finds the path between those two stations using recursion.
 // It prints the path to the console, also it shows the path on the canvas using StdDraw library.
+// Detailed explanation is below and also in the report
 
 import java.awt.*;
 import java.io.File;
@@ -54,7 +55,12 @@ public class suleyman_tolga_acar {
         showPath(solution.split(" "), fixedStations, metroLines, stations);
     }
 
-    // Check if the station name is valid or not
+    /**
+     * Check if the station name is valid or not
+     * @param value input value given by the end user
+     * @param stations all stations as a nested array of station names
+     * @return true if the input is valid, otherwise false
+     */
     public static boolean checkValid(String value, String[][] stations){
         for(String[] line : stations){
             for(String station : line){
@@ -65,7 +71,11 @@ public class suleyman_tolga_acar {
         return false;
     }
 
-    // Draws the background, lines and station names.
+    /**
+     * Draws the background, lines and station names.
+     * @param metroLines metrolines as a nested array with metroline names and colors associated with them
+     * @param stations stations as a nested array of station names
+     */
     public static void draw(String[][] metroLines, String[][] stations){
         StdDraw.picture(1024 / 2, 482 / 2, "background.jpg");
         drawLines(metroLines, stations);
@@ -155,8 +165,17 @@ public class suleyman_tolga_acar {
         }
     }
 
-    // Find the path from starting station to end station. It uses recursion to do so. Returns the solution path as a string.
-    // If the stations given are not connected in any way, returns an empty string.
+    /**
+     * Find the path from starting station to end station. It uses recursion to do so. Returns the solution path as a string.
+     * If the stations given are not connected in any way, returns an empty string.
+     * @param current current station we are in, pass the starting station in the first call
+     * @param end the end station we want to get to
+     * @param stations all stations as a nested array
+     * @param breakPoints all breakpoints as a nested array
+     * @param last the last station we were in, pass empty string in the first call
+     * @param solution the path between the starting station and the end station, pass empty string in the first call
+     * @return solution string (the path between the stations)
+     */
     public static String findPath(String current, String end, String[][] stations, String[][] breakPoints, String last, String solution){
         String[] ways = possibleWays(current, stations, breakPoints);
         for(String way : ways){
